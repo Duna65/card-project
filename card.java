@@ -63,13 +63,17 @@ public class card {
             }
         }
     }
-    public static void winner(List<card> p1,List<card> p2,List<card> p3){//determines who wins
+    public static void winner(List<card> p1,List<card> p2,List<card> p3,List<card> p4,List<card> p5){//determines who wins
         int p11=0;//p11,p21,and p31 are variables to determine how many aces a player has
         int p21=0;
         int p31=0;
+        int p41=0;
+        int p51=0;
         int p1i=0;//overall score
         int p2i=0;
         int p3i=0;
+        int p4i=0;
+        int p5i=0;
         for(card ii:p1){//for every card, it tests for if it is an ace or a face card
             if(ii.value==1){
                 p11=11+p11;
@@ -133,17 +137,71 @@ public class card {
                 p3i=0;
             }
         }
-        if(p1i<=p2i){
-            if(p2i<=p3i){
-                System.out.println("Player 3 wins!");
-            }else{
-                System.out.println("Player 2 wins!");
-            }
-        } else{ if(p1i<=p3i){
-            System.out.println("Player 3 wins!");
+        for(card ii:p4){
+            if(ii.value==1){
+                p41=11+p41;
+                p4i=ii.value+p4i;
+            }if(ii.value>=10){
+                p4i=10+p4i;
             } else{
-                System.out.println("Player 1 wins!");
+                p4i=ii.value+p4i;
             }
+        }
+        if(p4i>=22){
+            if(p41==1){
+                p4i=p4i-10;
+            }
+            if(p41==2){
+                p4i=1-p4i;
+            }
+            if(p4i>=22){
+                p4i=0;
+            }
+        }
+        for(card ii:p5){
+            if(ii.value==1){
+                p51=11+p51;
+                p5i=ii.value+p5i;
+            }if(ii.value>=10){
+                p5i=10+p5i;
+            } else{
+                p5i=ii.value+p5i;
+            }
+        }
+        if(p5i>=22){
+            if(p51==1){
+                p5i=p5i-10;
+            }
+            if(p51==2){
+                p5i=1-p5i;
+            }
+            if(p5i>=22){
+                p5i=0;
+            }
+        }
+        int [] n ={p1i,p2i,p3i,p4i,p5i};//finds the winner by sorting an array with all of the scores in it, then finds out who had that score
+        boolean sort =false;
+        while (sort == false){
+            sort = true;
+            for (int i = 0;i < n.length - 1;i++){
+                if (n[i]>n[i+1]){
+                    int i2 = n[i];
+                    n[i]=n [i+1];
+                    n[i+1]= i2;
+                    sort = false;
+                }
+            }
+        }
+        if(n[4]==p1i){
+            System.out.println("Player 1 wins!");
+        }if(n[4]==p2i){
+            System.out.println("Player 2 wins!");
+        }if(n[4]==p3i){
+            System.out.println("Player 3 wins!");
+        }if(n[4]==p4i){
+            System.out.println("Player 4 wins!");
+        }if(n[4]==p5i){
+            System.out.println("Player 5 wins!");
         }
     }
     public static void main(String[] args){
@@ -155,16 +213,24 @@ public class card {
         ArrayList<card> p1 = new ArrayList<card>();//makes players
         ArrayList<card> p2 = new ArrayList<card>();
         ArrayList<card> p3 = new ArrayList<card>();
+        ArrayList<card> p4 = new ArrayList<card>();
+        ArrayList<card> p5 = new ArrayList<card>();
         DealCard(deck,p1);//deals the cards
         DealCard(deck,p1);
         DealCard(deck,p2);
         DealCard(deck,p2);
         DealCard(deck,p3);
         DealCard(deck,p3);
+        DealCard(deck,p4);
+        DealCard(deck,p4);
+        DealCard(deck,p5);
+        DealCard(deck,p5);
         print(p1,1);//prints the cards the players had
         print(p2,2);
         print(p3,3);
-        winner(p1, p2, p3);//determines the winner
+        print(p4,4);
+        print(p5,5);
+        winner(p1, p2, p3, p4, p5);//determines the winner
     }
     public static void DealCard(List<card> source,List<card> destination){//this deals the card by a random number generator
     Random rand = new Random();
